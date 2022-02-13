@@ -1,1 +1,40 @@
-@charset "ISO-8859-1";
+table {
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	border: 1px solid #ced7dd;
+	table-layout: fixed;
+	display: table;
+}
+tr {
+  border-bottom: 1px solid #ddd;
+  background-color: rgba(150, 212, 212, 0.2);
+}
+td {
+	padding: 16px;
+	display: table-cell;
+	max-width: 0px;
+}
+iframe {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+hr {
+	width: 80%;
+}
+span {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+.center-text {
+	text-align: center;
+}
+.button {
+	width: 60%;
+}
+.button-skip {
+	width: 100%;
+}

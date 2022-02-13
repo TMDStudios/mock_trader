@@ -21,7 +21,7 @@
 	</tr>
 	<tr>
 	  <td>Money: $<c:out value="${money}"/></td>
-	  <td rowspan=2>Some news here</td>
+	  <td rowspan=2>Source: <c:out value="${currentNews.source}"/><br><c:out value="${currentNews.news}"/></td>
 	</tr>
 	<tr>
 		<td>BTC: <c:out value="${btc}"/></td>
@@ -45,8 +45,6 @@
   </tr>
 </table>
 <hr>
-
 <iframe src="/activity/" title="Bookmarks Iframe"></iframe>
-
 </body>
 </html>

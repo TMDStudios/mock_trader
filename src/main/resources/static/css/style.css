@@ -7,8 +7,8 @@ table {
 	display: table;
 }
 tr {
-  border-bottom: 1px solid #ddd;
-  background-color: rgba(150, 212, 212, 0.2);
+	border-bottom: 1px solid #ddd;
+	background-color: rgba(150, 212, 212, 0.2);
 }
 td {
 	padding: 16px;
@@ -38,4 +38,10 @@ span {
 }
 .button-skip {
 	width: 100%;
+}
+.center-item {
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.1);
 }

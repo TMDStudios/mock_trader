@@ -16,6 +16,9 @@
 	    <th colspan=2>Day <c:out value="${day}"/></th>
 	</tr>
 	<tr>
+	    <th colspan=2>BTC Price: $<c:out value="${btcPrice}"/></th>
+	</tr>
+	<tr>
 	  <th>Your Wealth</th>
 	  <th>Latest News</th>
 	</tr>
@@ -46,5 +49,12 @@
 </table>
 <hr>
 <iframe src="/activity/" title="Bookmarks Iframe"></iframe>
+<br>
+<br>
+<div class="center-item">
+<a href="https://play.google.com/store/apps/details?id=com.tmdstudios.cryptoledgerkotlin">
+<img src="https://tmdstudios.files.wordpress.com/2021/11/clbanner-1.png?w=480"/>
+</a>
+</div>
 </body>
 </html>

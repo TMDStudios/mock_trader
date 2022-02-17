@@ -128,8 +128,12 @@ public class MainController {
 	
 	private Double updateBtcPrice(HttpSession session, Double effect) {
 		Double btcPrice = (Double) session.getAttribute("btcPrice");
-		// Add price volatility
-		btcPrice += btcPrice * (new Random().nextDouble(0.3) - 0.15);
+		// Add price volatility (linked to effect)
+		if(effect > 0) {
+			btcPrice += btcPrice * (new Random().nextDouble(0.15) - 0.05);
+		}else {
+			btcPrice += btcPrice * (new Random().nextDouble(0.20) - 0.125);
+		}
 		// Add news effect
 		btcPrice += btcPrice * effect;
 		session.setAttribute("btcPrice", btcPrice);

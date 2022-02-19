@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tmdstudios.mocktrader.models.News;
@@ -59,17 +60,13 @@ public class MainController {
 		return "index.jsp";
 	}
 	
-	@SuppressWarnings("unchecked")
 	@GetMapping("/activity/")
-	public String activity(HttpSession session) {
-		
-		ArrayList<String> actions = (ArrayList<String>) session.getAttribute("actions");
-		
+	public String activity(HttpSession session) {	
 		return "activity.jsp";
 	}
 	
 	@PostMapping("/buy")
-	public String buy(@RequestParam("amount") int amount, HttpSession session) {
+	public String buy(@RequestParam(value = "amount", defaultValue = "0") int amount, HttpSession session) {
 		
 		Integer day = getDay(session);
 		News news = getNews(session);
@@ -97,7 +94,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/sell")
-	public String sell(@RequestParam("amount") int amount, HttpSession session) {
+	public String sell(@RequestParam(value = "amount", defaultValue = "0") int amount, HttpSession session) {
 		
 		Integer day = getDay(session);
 		News news = getNews(session);
@@ -177,4 +174,5 @@ public class MainController {
 		actions.add(0, action);		
 		session.setAttribute("actions", actions);
 	}
+
 }

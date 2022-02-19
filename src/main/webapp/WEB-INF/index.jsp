@@ -16,7 +16,15 @@
 	    <th colspan=2>Day <c:out value="${day}"/></th>
 	</tr>
 	<tr>
-	    <th colspan=2>BTC Price: $<c:out value="${btcPrice}"/></th>
+		<c:if test="${lastBtcPrice/btcPrice<1}">
+        	<th colspan=2>BTC Price: $<c:out value="${btcPrice}"/> <span style="color: green;"><c:out value="${1-lastBtcPrice/btcPrice}"/>%</span></th>
+    	</c:if>
+	    <c:if test="${lastBtcPrice/btcPrice>1}">
+        	<th colspan=2>BTC Price: $<c:out value="${btcPrice}"/> <span style="color: red;"><c:out value="${1-lastBtcPrice/btcPrice}"/>%</span></th>
+    	</c:if>
+    	<c:if test="${lastBtcPrice/btcPrice==1}">
+        	<th colspan=2>BTC Price: $<c:out value="${btcPrice}"/> <span><c:out value="${1-lastBtcPrice/btcPrice}"/>%</span></th>
+    	</c:if>
 	</tr>
 	<tr>
 	  <th>Your Wealth</th>

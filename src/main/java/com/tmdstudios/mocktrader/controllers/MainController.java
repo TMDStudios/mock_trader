@@ -29,6 +29,7 @@ public class MainController {
 		Double money = 10000.0;
 		Double btc = 0.0;
 		Double btcPrice = 50000.0;
+		Double lastBtcPrice = 50000.0;
 		ArrayList<String> actions = new ArrayList<>();
 		
 		if (session.getAttribute("day") == null) {
@@ -36,6 +37,7 @@ public class MainController {
 			session.setAttribute("money", 10000.0);
 			session.setAttribute("btc", 0.0);
 			session.setAttribute("btcPrice", 50000.0);
+			session.setAttribute("lastBtcPrice", 50000.0);
 			session.setAttribute("actions", actions);
 			NewsDataService newsDataService = new NewsDataService();
 			allNews = newsDataService.fetchNews();
@@ -46,6 +48,7 @@ public class MainController {
 			money = (Double) session.getAttribute("money");
 			btc = (Double) session.getAttribute("btc");
 			btcPrice = (Double) session.getAttribute("btcPrice");
+			lastBtcPrice = (Double) session.getAttribute("lastBtcPrice");
 			actions = (ArrayList<String>) session.getAttribute("actions");
 			session.setAttribute("currentNews", getNews(session));
 		}
@@ -128,11 +131,12 @@ public class MainController {
 	
 	private Double updateBtcPrice(HttpSession session, Double effect) {
 		Double btcPrice = (Double) session.getAttribute("btcPrice");
+		session.setAttribute("lastBtcPrice", btcPrice);
 		// Add price volatility (linked to effect)
 		if(effect > 0) {
-			btcPrice += btcPrice * (new Random().nextDouble(0.15) - 0.05);
+			btcPrice += btcPrice * (new Random().nextDouble(0.05) - 0.025);
 		}else {
-			btcPrice += btcPrice * (new Random().nextDouble(0.20) - 0.125);
+			btcPrice += btcPrice * (new Random().nextDouble(0.05) - 0.033);
 		}
 		// Add news effect
 		btcPrice += btcPrice * effect;

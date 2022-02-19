@@ -30,14 +30,16 @@ public class MainController {
 		Double btc = 0.0;
 		Double btcPrice = 50000.0;
 		Double lastBtcPrice = 50000.0;
+		Double trend = 0.0;
 		ArrayList<String> actions = new ArrayList<>();
 		
 		if (session.getAttribute("day") == null) {
-			session.setAttribute("day", 0);
-			session.setAttribute("money", 10000.0);
-			session.setAttribute("btc", 0.0);
-			session.setAttribute("btcPrice", 50000.0);
-			session.setAttribute("lastBtcPrice", 50000.0);
+			session.setAttribute("day", day);
+			session.setAttribute("money", money);
+			session.setAttribute("btc", btc);
+			session.setAttribute("btcPrice", btcPrice);
+			session.setAttribute("lastBtcPrice", lastBtcPrice);
+			session.setAttribute("trend", trend);
 			session.setAttribute("actions", actions);
 			NewsDataService newsDataService = new NewsDataService();
 			allNews = newsDataService.fetchNews();
@@ -49,6 +51,7 @@ public class MainController {
 			btc = (Double) session.getAttribute("btc");
 			btcPrice = (Double) session.getAttribute("btcPrice");
 			lastBtcPrice = (Double) session.getAttribute("lastBtcPrice");
+			trend = (Double) session.getAttribute("trend");
 			actions = (ArrayList<String>) session.getAttribute("actions");
 			session.setAttribute("currentNews", getNews(session));
 		}
@@ -74,8 +77,8 @@ public class MainController {
 		getMoney(session, amount, true);
 		getBtc(session, amount, btcPrice, true);
 		
-		DecimalFormat usdF = new DecimalFormat("#.##");
-		DecimalFormat btcF = new DecimalFormat("#.##########");
+		DecimalFormat usdF = new DecimalFormat("#.00");
+		DecimalFormat btcF = new DecimalFormat("0.00000000");
 		addAction(session, "Day " + day + " - " + "Bought " + btcF.format(amount/btcPrice) + " BTC at $" + usdF.format(btcPrice));
 		updateBtcPrice(session, news.getEffect());
 			
@@ -103,7 +106,7 @@ public class MainController {
 		getBtc(session, amount, btcPrice, false);
 		
 		DecimalFormat usdF = new DecimalFormat("0.00");
-		DecimalFormat btcF = new DecimalFormat("0.0000000000");
+		DecimalFormat btcF = new DecimalFormat("0.00000000");
 		addAction(session, "Day " + day + " - " + "Sold " + btcF.format(amount/btcPrice) + " BTC at $" + usdF.format(btcPrice));
 		updateBtcPrice(session, news.getEffect());
 			
@@ -131,6 +134,7 @@ public class MainController {
 	
 	private Double updateBtcPrice(HttpSession session, Double effect) {
 		Double btcPrice = (Double) session.getAttribute("btcPrice");
+		Double lastBtcPrice = (Double) session.getAttribute("lastBtcPrice");
 		session.setAttribute("lastBtcPrice", btcPrice);
 		// Add price volatility (linked to effect)
 		if(effect > 0) {
@@ -141,6 +145,7 @@ public class MainController {
 		// Add news effect
 		btcPrice += btcPrice * effect;
 		session.setAttribute("btcPrice", btcPrice);
+		session.setAttribute("trend", (1 - lastBtcPrice/btcPrice) * 100);
 		return btcPrice;
 	}
 	

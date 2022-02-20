@@ -43,5 +43,11 @@ span {
 	width: 80%;
 	margin: auto;
 	text-align: center;
-	background-color: rgba(0, 0, 0, 0.1);
+	transition: 0.2s;
+	background-color: rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 0 0 rgb(87, 114, 187);
+	border-radius: 8px;
+}
+.center-item:hover {
+    box-shadow: 0 0 12px 0 rgb(20, 45, 82);
 }

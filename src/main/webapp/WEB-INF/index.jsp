@@ -11,6 +11,7 @@
 <body>
 <h1 class="center-text">Mock Trader</h1>
 <p class="center-text">This is an open-source Bitcoin trading game created by <a href="https://tmdstudios.wordpress.com">TMD Studios</a>.</p>
+<p class="center-text"><small>The code is available on <a href="https://github.com/TMDStudios/mock_trader">GitHub</a>.</small></p>
 <p class="center-text"><small>The premise of this game is loosely based on real events. This is by no means financial advice.</small></p>
 <table>
 	<tr>
@@ -37,34 +38,46 @@
 	<tr>
 	  <td>Money: $<fmt:formatNumber pattern="#.00" value="${money}"/></td>
 	  	<c:if test="${day!=0}">
-			<td rowspan=2>
+			<td rowspan=3>
 				<p style="font-size: large;">Source: <c:out value="${currentNews.source}"/></p>
 				<p><c:out value="${currentNews.news}"/></p>
 			</td>
 		</c:if>
 		<c:if test="${day==0}">
-			<td rowspan=2></td>
+			<td rowspan=3></td>
 		</c:if> 
 	</tr>
 	<tr>
 		<td>BTC: <fmt:formatNumber pattern="0.00000000" value="${btc}"/></td>
+	</tr>
+	<tr>
+		<th>Total Wealth: $<fmt:formatNumber pattern="0.00" value="${total}"/></th>
 	</tr>
 </table>
 <hr>
 <table>
 
   <tr>
-    <td>
-	    <form action="/buy" method="post">
-	    	<span><input type="number" name="amount" placeholder="Amount"/><input class="button" type="submit" value="Buy"/></span>
-	    </form>
-    </td>
-    <td><form action="/skip" method="post"><input class="button-skip" type="submit" value="Skip"/></form></td>
-    <td>
-	    <form action="/sell" method="post">
-	    	<span><input type="number" name="amount" placeholder="Amount"/><input class="button" type="submit" value="Sell"/></span>
-	    </form>
-    </td>
+  	<c:if test="${day<100}">
+		<td>
+		    <form action="/buy" method="post">
+		    	<span><input type="number" name="amount" placeholder="Amount"/><input class="button" type="submit" value="Buy"/></span>
+		    </form>
+	    </td>
+	    <td><form action="/skip" method="post"><input class="button-skip" type="submit" value="Skip"/></form></td>
+	    <td>
+		    <form action="/sell" method="post">
+		    	<span><input type="number" name="amount" placeholder="Amount"/><input class="button" type="submit" value="Sell"/></span>
+		    </form>
+	    </td>
+	</c:if> 
+    <c:if test="${day==100}">
+		<td colspan=3>
+			<p class="center-text" style="font-size: x-large">Game Over</p>
+			<p style="font-size: large">Your total wealth is $<fmt:formatNumber pattern="0.00" value="${total}"/></p>
+			<p style="font-size: large"><a href="/play_again/">Play Again</a></p>
+		</td>
+	</c:if> 
   </tr>
 </table>
 <hr>

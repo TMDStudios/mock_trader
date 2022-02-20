@@ -8,7 +8,12 @@
 </head>
 <body>
 <c:forEach var="action" items="${actions}">
-	<p><c:out value="${action}"></c:out></p>
+	<c:if test = "${action.contains('Insufficient')}">
+       <p style="color: red;"><c:out value="${action}"></c:out></p>
+    </c:if>
+    <c:if test = "${!action.contains('Insufficient')}">
+       <p><c:out value="${action}"></c:out></p>
+    </c:if>
 </c:forEach>
 </body>
 </html>

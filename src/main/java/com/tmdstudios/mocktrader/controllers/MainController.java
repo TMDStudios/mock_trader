@@ -20,64 +20,66 @@ import com.tmdstudios.mocktrader.services.NewsDataService;
 @Controller
 public class MainController {
 	
+	private List<News> allNews;
+	
+	private Integer day = 0;
+	private Integer lastDay = 0;
+	private Double money = 10000.0;
+	private Double btc = 0.0;
+	private Double total = 10000.0;
+	private Double btcPrice = 50000.0;
+	private Double lastBtcPrice = 50000.0;
+	private Double trend = 0.0;
+	private ArrayList<String> actions = new ArrayList<>();
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
 	public String index(HttpSession session) throws IOException, InterruptedException {
 				
-		List<News> allNews;
-		
-		Integer day = 0;
-		Double money = 10000.0;
-		Double btc = 0.0;
-		Double btcPrice = 50000.0;
-		Double lastBtcPrice = 50000.0;
-		Double trend = 0.0;
-		ArrayList<String> actions = new ArrayList<>();
-		
 		if (session.getAttribute("day") == null) {
-			session.setAttribute("day", day);
-			session.setAttribute("money", money);
-			session.setAttribute("btc", btc);
-			session.setAttribute("btcPrice", btcPrice);
-			session.setAttribute("lastBtcPrice", lastBtcPrice);
-			session.setAttribute("trend", trend);
-			session.setAttribute("actions", actions);
-			NewsDataService newsDataService = new NewsDataService();
-			allNews = newsDataService.fetchNews();
-			session.setAttribute("news", allNews);
-			addAction(session, "Welcome trader!");
+			resetGame(session);
 		}else {
 			day = (Integer) session.getAttribute("day");
+			lastDay = (Integer) session.getAttribute("lastDay");
 			money = (Double) session.getAttribute("money");
 			btc = (Double) session.getAttribute("btc");
+			total = (Double) session.getAttribute("btc") * getBtcPrice(session) + (Double) session.getAttribute("money");
 			btcPrice = (Double) session.getAttribute("btcPrice");
 			lastBtcPrice = (Double) session.getAttribute("lastBtcPrice");
 			trend = (Double) session.getAttribute("trend");
 			actions = (ArrayList<String>) session.getAttribute("actions");
-			session.setAttribute("currentNews", getNews(session));
+			if(lastDay!=day) {
+				session.setAttribute("currentNews", getNews(session));
+			}
+			session.setAttribute("lastDay", day);
+			session.setAttribute("total", total);
 		}
 		
 		return "index.jsp";
 	}
 	
 	@GetMapping("/activity/")
-	public String activity(HttpSession session) {	
+	public String activity() {	
 		return "activity.jsp";
 	}
 	
 	@PostMapping("/buy")
 	public String buy(@RequestParam(value = "amount", defaultValue = "0") int amount, HttpSession session) {
 		
-		Integer day = getDay(session);
-		News news = getNews(session);
-		Double btcPrice = getBtcPrice(session);
-		getMoney(session, amount, true);
-		getBtc(session, amount, btcPrice, true);
-		
-		DecimalFormat usdF = new DecimalFormat("#.00");
-		DecimalFormat btcF = new DecimalFormat("0.00000000");
-		addAction(session, "Day " + day + " - " + "Bought " + btcF.format(amount/btcPrice) + " BTC at $" + usdF.format(btcPrice));
-		updateBtcPrice(session, news.getEffect());
+		if(amount <= (Double) session.getAttribute("money")) {
+			Integer day = getDay(session);
+			News news = getNews(session);
+			Double btcPrice = getBtcPrice(session);
+			getMoney(session, amount, true);
+			getBtc(session, amount, btcPrice, true);
+			
+			DecimalFormat usdF = new DecimalFormat("#.00");
+			DecimalFormat btcF = new DecimalFormat("0.00000000");
+			addAction(session, "Day " + day + " - " + "Bought " + btcF.format(amount/btcPrice) + " BTC at $" + usdF.format(btcPrice));
+			updateBtcPrice(session, news.getEffect());
+		}else {
+			addAction(session, "Insufficient funds!");
+		}
 			
 		return "redirect:/";
 	}
@@ -96,17 +98,29 @@ public class MainController {
 	@PostMapping("/sell")
 	public String sell(@RequestParam(value = "amount", defaultValue = "0") int amount, HttpSession session) {
 		
-		Integer day = getDay(session);
-		News news = getNews(session);
-		Double btcPrice = getBtcPrice(session);
-		getMoney(session, amount, false);
-		getBtc(session, amount, btcPrice, false);
-		
-		DecimalFormat usdF = new DecimalFormat("0.00");
-		DecimalFormat btcF = new DecimalFormat("0.00000000");
-		addAction(session, "Day " + day + " - " + "Sold " + btcF.format(amount/btcPrice) + " BTC at $" + usdF.format(btcPrice));
-		updateBtcPrice(session, news.getEffect());
+		if(amount <= (Double) session.getAttribute("btc") * getBtcPrice(session)) {
+			Integer day = getDay(session);
+			News news = getNews(session);
+			Double btcPrice = getBtcPrice(session);
+			getMoney(session, amount, false);
+			getBtc(session, amount, btcPrice, false);
 			
+			DecimalFormat usdF = new DecimalFormat("0.00");
+			DecimalFormat btcF = new DecimalFormat("0.00000000");
+			addAction(session, "Day " + day + " - " + "Sold " + btcF.format(amount/btcPrice) + " BTC at $" + usdF.format(btcPrice));
+			updateBtcPrice(session, news.getEffect());
+		}else {
+			addAction(session, "Insufficient funds!");
+		}
+			
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/play_again/")
+	public String playAgain(HttpSession session) throws IOException, InterruptedException {	
+		actions.clear();
+		allNews.clear();
+		resetGame(session);
 		return "redirect:/";
 	}
 	
@@ -173,6 +187,30 @@ public class MainController {
 		ArrayList<String> actions = (ArrayList<String>) session.getAttribute("actions");
 		actions.add(0, action);		
 		session.setAttribute("actions", actions);
+	}
+	
+	private void resetGame(HttpSession session) throws IOException, InterruptedException {
+		session.setAttribute("day", 0);
+		session.setAttribute("lastDay", 0);
+		session.setAttribute("money", 10000.0);
+		session.setAttribute("btc", 0.0);
+		session.setAttribute("total", 10000.0);
+		session.setAttribute("btcPrice", 50000.0);
+		session.setAttribute("lastBtcPrice", 50000.0);
+		session.setAttribute("trend", 0.0);
+		session.setAttribute("actions", actions);
+		NewsDataService newsDataService = new NewsDataService();
+		allNews = newsDataService.fetchNews();
+		session.setAttribute("news", allNews);
+		addAction(session, "Will you be the next (mock) Bitcoin Billionaire?");
+		addAction(session, "You can also click 'SKIP' to go to the next day.\n" + 
+				"The BTC price will fluctuate based on the news of the day. Buy low and sell high!\n"
+				);
+		addAction(session, 
+				"The goal of this game is to accumulate as much wealth as possible in 100 days.\n" +  
+				"Each day, you can buy or sell BTC by entering the dollar amount and clicking on the corresponding button.\n" 
+				);
+		addAction(session, "Welcome trader!");
 	}
 
 }

@@ -149,9 +149,9 @@ public class MainController {
 		session.setAttribute("lastBtcPrice", btcPrice);
 		// Add price volatility (linked to effect)
 		if(effect > 0) {
-			btcPrice += btcPrice * ((new Random().nextDouble(5) - 2.5) / 100);
+			btcPrice += btcPrice * ((new Random().nextDouble(5.0) - 2.5) / 100);
 		}else {
-			btcPrice += btcPrice * ((new Random().nextDouble(5) - 3.3) / 100);
+			btcPrice += btcPrice * ((new Random().nextDouble(5.0) - 3.3) / 100);
 		}
 		// Add news effect
 		btcPrice += btcPrice * effect;

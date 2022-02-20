@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.tmdstudios.mocktrader
+web: java -Dserver.port=$PORT -jar target/mocktrader-0.0.1-SNAPSHOT.war

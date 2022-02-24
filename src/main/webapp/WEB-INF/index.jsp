@@ -82,7 +82,7 @@
 </table>
 <hr>
 <iframe src="/activity/" title="Bookmarks Iframe"></iframe>
-<br>
+<p class="center-text"><small><a href="/play_again/">Reset</a></small></p>
 <br>
 <div class="center-item">
 <a href="https://play.google.com/store/apps/details?id=com.tmdstudios.cryptoledgerkotlin">

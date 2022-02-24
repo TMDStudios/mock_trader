@@ -148,27 +148,21 @@ public class MainController {
 		Double lastBtcPrice = (Double) session.getAttribute("lastBtcPrice");
 		session.setAttribute("lastBtcPrice", btcPrice);
 		lastBtcPrice = btcPrice;
+		
 		// Add price volatility (linked to effect)
 		Random r = new Random();
-		System.out.println("BTC: " + btcPrice);
 		if(effect > 0) {
-//			btcPrice += btcPrice * ((new Random().nextDouble(5.0) - 2.5) / 100);
 			double priceChange = 0.025 + (0.05 - 0.025) * r.nextDouble();
-			System.out.println("Random num: " + priceChange);
 			btcPrice += btcPrice * priceChange;
 		}else {
-//			btcPrice += btcPrice * ((new Random().nextDouble(5.0) - 3.3) / 100);
 			double priceChange = 0.033 + (0.05 - 0.033) * r.nextDouble();
-			System.out.println("Random num: " + priceChange);
 			btcPrice += btcPrice * priceChange;
 		}
+		
 		// Add news effect
 		btcPrice += btcPrice * effect;
-		System.out.println("Effect: " + effect);
-		System.out.println("BTC FINAL: " + btcPrice);
 		session.setAttribute("btcPrice", btcPrice);
 		session.setAttribute("trend", (1 - lastBtcPrice/btcPrice) * 100);
-		System.out.println("Trend: " + ((1 - lastBtcPrice/btcPrice) * 100));
 		return btcPrice;
 	}
 	

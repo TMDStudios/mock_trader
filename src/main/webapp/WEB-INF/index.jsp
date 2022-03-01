@@ -85,8 +85,8 @@
 <p class="center-text"><small><a href="/play_again/">Reset</a></small></p>
 <br>
 <div class="center-item">
-<a href="https://play.google.com/store/apps/details?id=com.tmdstudios.cryptoledgerkotlin">
-<img src="https://tmdstudios.files.wordpress.com/2021/11/clbanner-1.png?w=480"/>
+<a href="${link}">
+<img src="${banner}"/>
 </a>
 </div>
 </body>

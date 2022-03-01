@@ -44,7 +44,7 @@ span {
 	margin: auto;
 	text-align: center;
 	transition: 0.2s;
-	background-color: rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.66);
 	box-shadow: 0 0 0 0 rgb(87, 114, 187);
 	border-radius: 8px;
 }

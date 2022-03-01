@@ -32,6 +32,18 @@ public class MainController {
 	private Double trend = 0.0;
 	private ArrayList<String> actions = new ArrayList<>();
 	
+	private String[] banners = {
+			"https://tmdstudios.files.wordpress.com/2021/02/plclogolight.png?w=480",
+			"https://tmdstudios.files.wordpress.com/2021/11/clbanner-1.png?w=480",
+			"https://tmdstudios.files.wordpress.com/2022/03/tmdlogowide.png?w=480"
+			};
+	
+	private String[] links = {
+			"https://play.google.com/store/apps/details?id=com.tmdstudios.python",
+			"https://play.google.com/store/apps/details?id=com.tmdstudios.cryptoledgerkotlin",
+			"https://tmdstudios.wordpress.com"
+			};
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
 	public String index(HttpSession session) throws IOException, InterruptedException {
@@ -136,6 +148,11 @@ public class MainController {
 		Integer day = (Integer) session.getAttribute("day");
 		day++;
 		session.setAttribute("day", day);
+		if(day%5==0) {
+			int indexVal = new Random().nextInt(banners.length);
+			session.setAttribute("banner", banners[indexVal]);
+			session.setAttribute("link", links[indexVal]);
+		}
 		return day;
 	}
 	
@@ -205,6 +222,8 @@ public class MainController {
 		session.setAttribute("lastBtcPrice", 50000.0);
 		session.setAttribute("trend", 0.0);
 		session.setAttribute("actions", actions);
+		session.setAttribute("banner", banners[0]);
+		session.setAttribute("link", links[0]);
 		NewsDataService newsDataService = new NewsDataService();
 		allNews = newsDataService.fetchNews();
 		session.setAttribute("news", allNews);

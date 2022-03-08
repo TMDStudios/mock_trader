@@ -30,6 +30,16 @@ span {
 	width: 100%;
 	text-align: center;
 }
+.center {
+  	display: block;
+  	margin: auto;
+  	width: 80%;
+}
+.center-img {
+	display: block;
+  	margin: auto;
+  	width: 30%;
+}
 .center-text {
 	text-align: center;
 }

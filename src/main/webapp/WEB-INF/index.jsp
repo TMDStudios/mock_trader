@@ -86,7 +86,7 @@
 <br>
 <div class="center-item">
 <a href="${link}">
-<img src="${banner}"/>
+<img style="padding: 8px" src="${banner}"/>
 </a>
 </div>
 </body>

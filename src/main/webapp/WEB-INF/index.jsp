@@ -12,7 +12,7 @@
   content="Mock Trader is an open-source Bitcoin trading game. The player starts with $10,000 and is tasked with accumulating as much wealth as possible in 100 turns (days)."
 />
 <meta name="robots" content="index,follow" />
-<meta property="og:image" content="https://tmdstudios.files.wordpress.com/2022/03/mocktrader.png" />
+<meta property="og:image" content="https://tmdstudios.files.wordpress.com/2022/03/mocktraderthumb.png" />
 <meta property="og:title" content="Mock Trader">
 <meta name="description" property="og:description" content="Mock Trader is an open-source Bitcoin trading game. The player starts with $10,000 and is tasked with accumulating as much wealth as possible in 100 turns (days).">
 <meta name="twitter:card" value="summary">

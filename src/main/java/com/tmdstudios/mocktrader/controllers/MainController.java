@@ -173,17 +173,19 @@ public class MainController {
 		lastBtcPrice = btcPrice;
 		
 		// Add price volatility (linked to effect)
-		Random r = new Random();
+		Double r = new Random().nextDouble()/20;
+		Double priceDifference = 0.0;
 		if(effect > 0) {
-			double priceChange = 0.025 + (0.05 - 0.025) * r.nextDouble();
-			btcPrice += btcPrice * priceChange;
+			priceDifference = 0.05 - r;
 		}else {
-			double priceChange = 0.033 + (0.05 - 0.033) * r.nextDouble();
-			btcPrice += btcPrice * priceChange;
+			priceDifference = 0.01 - r;
 		}
 		
 		// Add news effect
-		btcPrice += btcPrice * effect;
+		btcPrice += btcPrice * (effect+priceDifference);
+		if(btcPrice<10000) {
+			btcPrice = 10000 + 100 * priceDifference;
+		}
 		session.setAttribute("btcPrice", btcPrice);
 		session.setAttribute("trend", (1 - lastBtcPrice/btcPrice) * 100);
 		return btcPrice;

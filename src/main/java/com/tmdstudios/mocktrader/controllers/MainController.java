@@ -221,6 +221,7 @@ public class MainController {
 	}
 	
 	private void resetGame(HttpSession session) throws IOException, InterruptedException {
+		actions = new ArrayList<>();
 		session.setAttribute("day", 0);
 		session.setAttribute("lastDay", 0);
 		session.setAttribute("money", 10000.0);
@@ -235,15 +236,7 @@ public class MainController {
 		NewsDataService newsDataService = new NewsDataService();
 		allNews = newsDataService.fetchNews();
 		session.setAttribute("news", allNews);
-		addAction(session, "Will you be the next (mock) Bitcoin Billionaire?");
-		addAction(session, "You can also click 'SKIP' to go to the next day.\n" + 
-				"The BTC price will fluctuate based on the news of the day. Buy low and sell high!\n"
-				);
-		addAction(session, 
-				"The goal of this game is to accumulate as much wealth as possible in 100 days.\n" +  
-				"Each day, you can buy or sell BTC by entering the dollar amount and clicking on the corresponding button.\n" 
-				);
-		addAction(session, "Welcome trader!");
+		addAction(session, "NEW GAME");
 	}
 
 }

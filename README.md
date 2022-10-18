@@ -12,7 +12,7 @@ The Bitcoin price starts at $50,000 and changes based on news pulled from a JSON
 
 Each news item will increase or decrease the price of Bitcoin
 
->You can play the game here: https://open-mock-trader.herokuapp.com/
+>You can play the game here: https://mocktrader-prod-mocktrader-wdutfz.mo4.mogenius.io/
 
 >Mock Trader is also available on Google Play: https://play.google.com/store/apps/details?id=com.tmdstudios.mocktrader
 

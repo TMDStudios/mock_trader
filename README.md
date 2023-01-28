@@ -1,6 +1,6 @@
 # Mock Trader
 
-![App Badge](https://img.shields.io/badge/app-android-brightgreen)
+![Mogenius Badge](https://img.shields.io/badge/deployment-mogenius-cyan) ![App Badge](https://img.shields.io/badge/app-android-brightgreen)
 
 ![Mock Trader Logo](/src/main/resources/static/images/mock_trader.png)
 
